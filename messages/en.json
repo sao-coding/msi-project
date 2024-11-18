@@ -1,0 +1,19 @@
+{
+  "HomePage": {
+    "title": "Hello world!",
+    "about": "Go to the about page"
+  },
+  "BreadcrumbPage": {
+    "home": "Home",
+    "breadcrumb": "Breadcrumb",
+    "test": "Test Page",
+    "test2": "Test Page 2",
+    "test3": "Test Page 3",
+    "test4": "Test Page 4",
+    "unknown": "Unknown Page"
+  },
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": "{locale, select, zh_TW {Traditional Chinese} zh_CN {Simplified Chinese} en {English} other {Unknown}}"
+  }
+}

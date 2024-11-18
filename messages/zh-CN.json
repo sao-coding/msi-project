@@ -1,0 +1,19 @@
+{
+  "HomePage": {
+    "title": "你好，世界！",
+    "about": "前往关于页面"
+  },
+  "BreadcrumbPage": {
+    "home": "首页",
+    "breadcrumb": "面包屑",
+    "test": "测试页面",
+    "test2": "测试页面 2",
+    "test3": "测试页面 3",
+    "test4": "测试页面 4",
+    "unknown": "未知页面"
+  },
+  "LocaleSwitcher": {
+    "label": "切换语言",
+    "locale": "{locale, select, zh_TW {繁体中文} zh_CN {简体中文} en {英文} other {未知}}"
+  }
+}
