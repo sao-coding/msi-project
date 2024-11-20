@@ -1,32 +1,27 @@
 'use client'
 
 import Editor from '@/components/editor'
-import { BlockNoteEditor, PartialBlock } from '@blocknote/core'
+import { Block, PartialBlock } from '@blocknote/core'
 import React from 'react'
-
+const loadContent = async () => {
+  const content = localStorage.getItem('content')
+  return content ? JSON.parse(content) : undefined
+}
 const EditorPage = () => {
-  const [content, setContent] = React.useState<PartialBlock[]>([
-    {
-      type: 'paragraph',
-      content: ''
-    }
-  ])
+  const [content, setContent] = React.useState<PartialBlock[] | undefined | 'loading'>('loading')
 
   React.useEffect(() => {
-    const content = JSON.parse(
-      localStorage.getItem('content') || '[{"type":"paragraph","content":""}]'
-    )
-    setContent(content)
+    loadContent().then((content) => {
+      setContent(content)
+    })
   }, [])
 
-  React.useEffect(() => {
-    console.log(content)
-  }, [content])
+  // React.useEffect(() => {
+  //   console.log("content", content)
+  // }, [content])
 
-  const handleContentChange = (editor: BlockNoteEditor) => {
-    console.log(editor.document)
-    setContent(editor.document)
-    localStorage.setItem('content', JSON.stringify(editor.document))
+  const handleContentChange = async (content: Block[]) => {
+    localStorage.setItem('content', JSON.stringify(content))
   }
 
   return (
@@ -35,13 +30,7 @@ const EditorPage = () => {
         <Editor onChange={handleContentChange} initialContent={content} editable />
       </div>
       <div className='w-full'>
-        <Editor
-          onChange={handleContentChange}
-          initialContent={JSON.parse(
-            localStorage.getItem('content') || '[{"type":"paragraph","content":""}]'
-          )}
-          editable={false}
-        />
+        <pre>{JSON.stringify(content, null, 2)}</pre>
       </div>
     </div>
   )

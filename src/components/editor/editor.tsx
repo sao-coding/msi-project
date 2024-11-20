@@ -1,16 +1,17 @@
 'use client'
 
-import type { BlockNoteEditor, PartialBlock } from '@blocknote/core'
+import { BlockNoteEditor, type Block, type PartialBlock } from '@blocknote/core'
 import '@blocknote/core/fonts/inter.css'
 import { BlockNoteView } from '@blocknote/mantine'
 import '@blocknote/mantine/style.css'
-import { FormattingToolbar, useCreateBlockNote } from '@blocknote/react'
+import { FormattingToolbar } from '@blocknote/react'
 import './editor.css'
+import React from 'react'
 
 // Props interface
 interface EditorProps {
-  onChange: (editor: BlockNoteEditor) => void
-  initialContent: PartialBlock[]
+  onChange: (editor: Block[]) => void
+  initialContent: PartialBlock[]  | undefined | "loading"
   editable: boolean
 }
 
@@ -29,32 +30,28 @@ async function uploadFile(file: File) {
 const Editor = ({ onChange, initialContent, editable = true }: EditorProps) => {
   // Creates a new editor instance.
 
-  const editor = useCreateBlockNote({
-    initialContent: initialContent || [
-      {
-        type: 'paragraph',
-        content: 'Welcome to this demo!'
-      },
-      {
-        type: 'paragraph',
-        content: 'Upload an image using the button below'
-      },
-      {
-        type: 'image'
-      },
-      {
-        type: 'paragraph'
-      }
-    ],
-    uploadFile
-  })
+  // const editor = useCreateBlockNote({
+  //   initialContent: initialContent || [{ type: 'paragraph', content: '' }],
+  //   uploadFile
+  // })
+
+  const editor = React.useMemo(() => {
+    if (initialContent === "loading") {
+      return undefined;
+    }
+    return BlockNoteEditor.create({ initialContent, uploadFile });
+  }, [initialContent]);
+ 
+  if (editor === undefined) {
+    return "載入中";
+  }
 
   // Renders the editor instance using a React component.
   return (
     // 強制使用 light theme
     <BlockNoteView
       editor={editor}
-      onChange={() => onChange(editor)}
+      onChange={() => onChange(editor.document)}
       editable={editable}
       theme='light'
     >
