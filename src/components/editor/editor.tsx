@@ -20,7 +20,7 @@ async function uploadFile(file: File) {
   const body = new FormData()
   body.append('file', file)
 
-  const ret = await fetch('https://tmpfiles.org/api/v1/upload', {
+  const ret = await fetch('/api/upload', {
     method: 'POST',
     body: body
   })
